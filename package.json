@@ -1,0 +1,32 @@
+{
+  "name": "highwayhash",
+  "version": "0.0.1",
+  "author": "Lovell Fuller <npm@lovell.info>",
+  "description": "Node.js implementation of HighwayHash, Google's fast and strong AVX2+ hash function",
+  "scripts": {
+    "test": "semistandard && node test/unit"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lovell/highwayhash"
+  },
+  "keywords": [
+    "highwayhash",
+    "siphash",
+    "hash",
+    "crypto",
+    "random"
+  ],
+  "dependencies": {
+    "nan": "^2.2.0"
+  },
+  "devDependencies": {
+    "long": "^3.0.3",
+    "semistandard": "^7.0.5"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=4"
+  }
+}

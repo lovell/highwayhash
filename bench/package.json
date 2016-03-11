@@ -1,0 +1,17 @@
+{
+  "name": "highwayhash-bench",
+  "version": "0.0.1",
+  "author": "Lovell Fuller <npm@lovell.info>",
+  "private": true,
+  "scripts": {
+    "test": "node bench"
+  },
+  "dependencies": {
+    "benchmark": "^2.1.0",
+    "farmhash": "^1.1.0"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=4"
+  }
+}
