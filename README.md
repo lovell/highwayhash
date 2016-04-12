@@ -50,6 +50,9 @@ const input = 'The quick brown fox jumped over the lazy sleeping dog';
 const hashAsString = highwayhash.asString(key, input);
 // '13898145506225518925'
 
+const hashAsHexString = highwayhash.asHexString(key, input);
+// '4d7943cfb321e0c0'
+
 const hashAsUInt32Low = highwayhash.asUInt32Low(key, input);
 // 3477305677
 
@@ -69,6 +72,11 @@ const hashAsBuffer = highwayhash.asBuffer(key, input);
 ### asString(key, input)
 
 Returns a String representing the 64-bit unsigned integer hash value of `input`.
+
+### asHexString(key, input)
+
+Returns a hexadecimal String representing the 64-bit unsigned integer hash value of `input`.
+This is equivalent to but much faster than `asBuffer().toString('hex')`.
 
 ### asBuffer(key, input)
 

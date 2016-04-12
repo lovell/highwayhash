@@ -1,6 +1,6 @@
 {
   "name": "highwayhash",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Lovell Fuller <npm@lovell.info>",
   "description": "Node.js implementation of HighwayHash, Google's fast and strong AVX2+ hash function",
   "scripts": {
@@ -19,10 +19,10 @@
     "random"
   ],
   "dependencies": {
-    "nan": "^2.2.0"
+    "nan": "^2.2.1"
   },
   "devDependencies": {
-    "long": "^3.0.3",
+    "long": "^3.1.0",
     "semistandard": "^7.0.5"
   },
   "license": "Apache-2.0",

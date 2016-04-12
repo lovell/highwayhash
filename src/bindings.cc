@@ -18,6 +18,29 @@ inline uint64_t AsUInt64(uint8_t const *key, uint8_t const *value, size_t const 
   return HighwayTreeHash(key64, value, length);
 }
 
+// Convert from uint64_t to hex string
+inline std::string AsHex(uint64_t const hash) {
+  static const char* lut = "0123456789abcdef";
+  std::string hex(16, '0');
+  hex[0]  = lut[(hash >> 4)  & 0x0f];
+  hex[1]  = lut[ hash        & 0x0f];
+  hex[2]  = lut[(hash >> 12) & 0x0f];
+  hex[3]  = lut[(hash >> 8)  & 0x0f];
+  hex[4]  = lut[(hash >> 20) & 0x0f];
+  hex[5]  = lut[(hash >> 16) & 0x0f];
+  hex[6]  = lut[(hash >> 28) & 0x0f];
+  hex[7]  = lut[(hash >> 24) & 0x0f];
+  hex[8]  = lut[(hash >> 36) & 0x0f];
+  hex[9]  = lut[(hash >> 32) & 0x0f];
+  hex[10] = lut[(hash >> 44) & 0x0f];
+  hex[11] = lut[(hash >> 40) & 0x0f];
+  hex[12] = lut[(hash >> 52) & 0x0f];
+  hex[13] = lut[(hash >> 48) & 0x0f];
+  hex[14] = lut[(hash >> 60) & 0x0f];
+  hex[15] = lut[(hash >> 56) & 0x0f];
+  return hex;
+}
+
 // Hash methods
 
 NAN_METHOD(AsBuffer) {
@@ -40,6 +63,16 @@ NAN_METHOD(AsString) {
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
   info.GetReturnValue().Set(Nan::New(std::to_string(hash)).ToLocalChecked());
+}
+
+NAN_METHOD(AsHexString) {
+  Nan::HandleScope();
+  Nan::TypedArrayContents<uint8_t> key(info[0]);
+  Nan::TypedArrayContents<uint8_t> value(info[1]);
+
+  uint64_t const hash = AsUInt64(*key, *value, value.length());
+
+  info.GetReturnValue().Set(Nan::New(AsHex(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(AsUInt32Low) {
@@ -68,6 +101,8 @@ NAN_MODULE_INIT(init) {
     Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsBuffer)).ToLocalChecked());
   Nan::Set(target, Nan::New("AsString").ToLocalChecked(),
     Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsString)).ToLocalChecked());
+  Nan::Set(target, Nan::New("AsHexString").ToLocalChecked(),
+    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsHexString)).ToLocalChecked());
   Nan::Set(target, Nan::New("AsUInt32Low").ToLocalChecked(),
     Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsUInt32Low)).ToLocalChecked());
   Nan::Set(target, Nan::New("AsUInt32High").ToLocalChecked(),

@@ -27,6 +27,11 @@ const hashAsLong = long.fromString(hashAsString, true);
 assert.strictEqual(expectedHashUInt32Low, hashAsLong.getLowBitsUnsigned());
 assert.strictEqual(expectedHashUInt32High, hashAsLong.getHighBitsUnsigned());
 
+// asHexString
+const hashAsHexString = highwayhash.asHexString(key, input);
+assert.strictEqual('string', typeof hashAsHexString);
+assert.strictEqual(hashAsBuffer.toString('hex'), hashAsHexString);
+
 // asUInt32Low
 const hashAsUInt32Low = highwayhash.asUInt32Low(key, input);
 assert.strictEqual('number', typeof hashAsUInt32Low);

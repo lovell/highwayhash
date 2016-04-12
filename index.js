@@ -25,6 +25,11 @@ module.exports = {
     assertInput(input);
     return HighwayHash.AsString(key, input);
   },
+  asHexString: function (key, input) {
+    assertKey(key);
+    assertInput(input);
+    return HighwayHash.AsHexString(key, input);
+  },
   asUInt32Low: function (key, input) {
     assertKey(key);
     assertInput(input);

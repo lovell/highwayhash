@@ -27,6 +27,9 @@ const key = crypto.randomBytes(32);
   .add('64-highwayhash-uint64-as-string', function () {
     highwayhash.asString(key, input);
   })
+  .add('64-highwayhash-uint64-as-hex-string', function () {
+    highwayhash.asHexString(key, input);
+  })
   .on('cycle', function (event) {
     console.log(String(event.target));
   }).run();
