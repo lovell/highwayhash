@@ -82,7 +82,7 @@ NAN_METHOD(AsUInt32Low) {
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
-  info.GetReturnValue().Set(Nan::New(static_cast<uint32_t>(hash & 0xFFFFFFFF)));
+  info.GetReturnValue().Set(Nan::New(static_cast<uint32_t>(hash)));
 }
 
 NAN_METHOD(AsUInt32High) {
