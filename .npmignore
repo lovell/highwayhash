@@ -3,3 +3,5 @@ node_modules
 test
 bench
 .gitignore
+appveyor.yml
+.travis.yml

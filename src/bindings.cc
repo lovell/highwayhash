@@ -1,21 +1,23 @@
-#ifndef __AVX2__
-#error *** CPU does not support AVX2 intrinsics ***
-#endif
-
 #include <node.h>
 
 #include "nan.h"
-#include "upstream/highway_tree_hash.h"
+#include "highwayhash/highwayhash_target.h"
+#include "highwayhash/instruction_sets.h"
 
-inline uint64_t AsUInt64(uint8_t const *key, uint8_t const *value, size_t const length) {
-  // Convert key from uint8_t[32] to uint64_t[4]
-  uint64_t key64[4];
-  key64[0] = *reinterpret_cast<uint64_t const*>(&key[0]);
-  key64[1] = *reinterpret_cast<uint64_t const*>(&key[8]);
-  key64[2] = *reinterpret_cast<uint64_t const*>(&key[16]);
-  key64[3] = *reinterpret_cast<uint64_t const*>(&key[24]);
+using namespace highwayhash;
+
+inline uint64_t AsUInt64(uint8_t const *key, char const *value, size_t const length) {
+  // Convert key from uint8_t[32] to uint64_t[4] HHKey
+  HHKey const key64 HH_ALIGNAS(32) = {
+    *reinterpret_cast<uint64_t const*>(&key[0]),
+    *reinterpret_cast<uint64_t const*>(&key[8]),
+    *reinterpret_cast<uint64_t const*>(&key[16]),
+    *reinterpret_cast<uint64_t const*>(&key[24])
+  };
   // Generate hash
-  return HighwayTreeHash(key64, value, length);
+  HHResult64 result;
+  InstructionSets::Run<HighwayHash>(key64, value, 8, &result, 0);
+  return static_cast<uint64_t>(result);
 }
 
 // Convert from uint64_t to hex string
@@ -46,7 +48,7 @@ inline std::string AsHex(uint64_t const hash) {
 NAN_METHOD(AsBuffer) {
   Nan::HandleScope();
   Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<uint8_t> value(info[1]);
+  Nan::TypedArrayContents<char> value(info[1]);
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
@@ -58,7 +60,7 @@ NAN_METHOD(AsBuffer) {
 NAN_METHOD(AsString) {
   Nan::HandleScope();
   Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<uint8_t> value(info[1]);
+  Nan::TypedArrayContents<char> value(info[1]);
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
@@ -68,7 +70,7 @@ NAN_METHOD(AsString) {
 NAN_METHOD(AsHexString) {
   Nan::HandleScope();
   Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<uint8_t> value(info[1]);
+  Nan::TypedArrayContents<char> value(info[1]);
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
@@ -78,7 +80,7 @@ NAN_METHOD(AsHexString) {
 NAN_METHOD(AsUInt32Low) {
   Nan::HandleScope();
   Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<uint8_t> value(info[1]);
+  Nan::TypedArrayContents<char> value(info[1]);
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
@@ -88,7 +90,7 @@ NAN_METHOD(AsUInt32Low) {
 NAN_METHOD(AsUInt32High) {
   Nan::HandleScope();
   Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<uint8_t> value(info[1]);
+  Nan::TypedArrayContents<char> value(info[1]);
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 

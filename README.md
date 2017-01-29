@@ -1,12 +1,14 @@
 # highwayhash
 
-Node.js implementation of Google's AVX2+ [HighwayHash](https://github.com/google/highwayhash).
+Node.js implementation of Google's [HighwayHash](https://github.com/google/highwayhash).
 
 Based on [SipHash](https://en.wikipedia.org/wiki/SipHash),
 it is believed to be robust against hash flooding and timing attacks
 because memory accesses are sequential and the algorithm is branch-free.
 
 This makes it suitable for random number generators and hash tables storing untrusted data.
+
+AVX2 or SSE4.1 instruction sets will be used when available at runtime.
 
 Expect up to 8 million operations/second,
 depending on the length of the input and the output type required.
@@ -15,15 +17,15 @@ As JavaScript lacks native support for 64-bit integers,
 hash values are made available as hex, string, Buffer and
 low/high 32-bit unsigned integer types.
 
-If the input to be hashed is trusted, a cryptographically-insecure alternative is
+If the input to be hashed is trusted,
+a cryptographically-insecure alternative is
 [FarmHash](https://github.com/lovell/farmhash).
-It can be almost an order of magnitude faster,
-especially for smaller inputs when only 32-bit hash values are required.
 
 ## Requirements
 
+* x64 CPU
 * Node.js v4+
-* [CPU with AVX2](https://en.wikipedia.org/wiki/Advanced_Vector_Extensions#CPUs_with_AVX2)
+* [node-gyp](https://github.com/nodejs/node-gyp#installation) and its dependencies
 
 ## Installation
 
@@ -48,19 +50,19 @@ const key = new Buffer([
 const input = 'The quick brown fox jumped over the lazy sleeping dog';
 
 const hashAsString = highwayhash.asString(key, input);
-// '13898145506225518925'
+// '15456351453344120596'
 
 const hashAsHexString = highwayhash.asHexString(key, input);
-// '4d7943cfb321e0c0'
+// '143f2b6cc1fd7fd6'
 
 const hashAsUInt32Low = highwayhash.asUInt32Low(key, input);
-// 3477305677
+// 1814773524
 
 const hashAsUInt32High = highwayhash.asUInt32High(key, input);
-// 3235914163
+// 3598712257
 
 const hashAsBuffer = highwayhash.asBuffer(key, input);
-// <Buffer 4d 79 43 cf b3 21 e0 c0>
+// <Buffer 14 3f 2b 6c c1 fd 7f d6>
 
 ```
 
@@ -94,34 +96,37 @@ Returns a Number representing the high 32-bits of the 64-bit unsigned integer ha
 
 ## Benchmarks
 
-[Intel i3-4170](http://ark.intel.com/products/77490/Intel-Core-i3-4170-Processor-3M-Cache-3_70-GHz)
+* [Intel i3-4170](http://ark.intel.com/products/77490/Intel-Core-i3-4170-Processor-3M-Cache-3_70-GHz)
+* Ubuntu 16.04.1 LTS
+* Node.js v6.9.4
+* Cryptographically strong pseudo-random input via OpenSSL's RAND_bytes
 
 | Input size / bytes | Hash function  | Hash size / bits | Output data type  | Ops/sec   |
 | -----------------: | :------------- | ---------------: | :---------------- | --------: |
-|                100 | md5            |              128 | Buffer            |   609,621 |
-|                100 | sha256         |              256 | Buffer            |   548,025 |
-|                100 | FarmHash       |               32 | string            | 9,185,297 |
-|                100 | HighwayHash    |               32 | 32-bit int (low)  | 7,678,247 |
-|                100 | HighwayHash    |               32 | 32-bit int (high) | 7,967,795 |
-|                100 | FarmHash       |               64 | string            | 1,491,543 |
-|                100 | HighwayHash    |               64 | string            | 3,324,484 |
-|                100 | HighwayHash    |               64 | hex string        | 3,914,129 |
-|               1000 | md5            |              128 | Buffer            |   357,838 |
-|               1000 | sha256         |              256 | Buffer            |   240,392 |
-|               1000 | FarmHash       |               32 | string            | 5,409,961 |
-|               1000 | HighwayHash    |               32 | 32-bit int (low)  | 5,264,793 |
-|               1000 | HighwayHash    |               32 | 32-bit int (high) | 5,306,368 |
-|               1000 | FarmHash       |               64 | string            | 1,390,345 |
-|               1000 | HighwayHash    |               64 | string            | 2,777,670 |
-|               1000 | HighwayHash    |               64 | hex string        | 3,167,246 |
-|              10000 | md5            |              128 | Buffer            |    67,489 |
-|              10000 | sha256         |              256 | Buffer            |    37,608 |
-|              10000 | FarmHash       |               32 | string            | 1,455,628 |
-|              10000 | HighwayHash    |               32 | 32-bit int (low)  | 1,172,628 |
-|              10000 | HighwayHash    |               32 | 32-bit int (high) | 1,179,418 |
-|              10000 | FarmHash       |               64 | string            |   953,943 |
-|              10000 | HighwayHash    |               64 | string            |   971,012 |
-|              10000 | HighwayHash    |               64 | hex string        | 1,015,985 |
+|                100 | md5            |              128 | Buffer            |   577,384 |
+|                100 | sha256         |              256 | Buffer            |   516,888 |
+|                100 | FarmHash       |               32 | 32-bit int        | 3,870,645 |
+|                100 | FarmHash       |               64 | string            | 1,332,578 |
+|                100 | HighwayHash    |               32 | 32-bit int (low)  | 5,534,449 |
+|                100 | HighwayHash    |               32 | 32-bit int (high) | 5,626,820 |
+|                100 | HighwayHash    |               64 | string            | 2,583,533 |
+|                100 | HighwayHash    |               64 | hex string        | 3,477,324 |
+|               1000 | md5            |              128 | Buffer            |   343,203 |
+|               1000 | sha256         |              256 | Buffer            |   259,395 |
+|               1000 | FarmHash       |               32 | 32-bit int        | 3,836,197 |
+|               1000 | FarmHash       |               64 | string            | 1,219,728 |
+|               1000 | HighwayHash    |               32 | 32-bit int (low)  | 5,531,220 |
+|               1000 | HighwayHash    |               32 | 32-bit int (high) | 5,609,610 |
+|               1000 | HighwayHash    |               64 | string            | 2,616,148 |
+|               1000 | HighwayHash    |               64 | hex string        | 3,520,123 |
+|              10000 | md5            |              128 | Buffer            |    67,178 |
+|              10000 | sha256         |              256 | Buffer            |    44,260 |
+|              10000 | FarmHash       |               32 | 32-bit int        | 1,462,781 |
+|              10000 | FarmHash       |               64 | string            |   832,073 |
+|              10000 | HighwayHash    |               32 | 32-bit int (low)  | 3,949,544 |
+|              10000 | HighwayHash    |               32 | 32-bit int (high) | 3,974,480 |
+|              10000 | HighwayHash    |               64 | string            | 2,613,013 |
+|              10000 | HighwayHash    |               64 | hex string        | 3,537,567 |
 
 ```sh
 git clone https://github.com/lovell/highwayhash
@@ -133,7 +138,7 @@ npm install && npm test
 
 ## Licence
 
-Copyright 2016 Lovell Fuller.
+Copyright 2016, 2017 Lovell Fuller.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -147,7 +152,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Copyright 2015, 2016 Google Inc. All Rights Reserved.
+Copyright 2015, 2016, 2017 Google Inc. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
