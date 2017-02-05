@@ -1,12 +1,30 @@
-#include <node.h>
+// Copyright 2017 Lovell Fuller.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-#include "nan.h"
+#include <node.h>
+#include <nan.h>
+
 #include "highwayhash/highwayhash_target.h"
 #include "highwayhash/instruction_sets.h"
 
-using namespace highwayhash;
+inline uint64_t
+AsUInt64(uint8_t const *key, char const *value, size_t const length) {
+  using highwayhash::HHKey;
+  using highwayhash::HHResult64;
+  using highwayhash::InstructionSets;
+  using highwayhash::HighwayHash;
 
-inline uint64_t AsUInt64(uint8_t const *key, char const *value, size_t const length) {
   // Convert key from uint8_t[32] to uint64_t[4] HHKey
   HHKey const key64 HH_ALIGNAS(32) = {
     *reinterpret_cast<uint64_t const*>(&key[0]),
@@ -52,9 +70,10 @@ NAN_METHOD(AsBuffer) {
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
-  info.GetReturnValue().Set(
-    Nan::CopyBuffer(reinterpret_cast<char const*>(&hash), 8).ToLocalChecked()
-  );
+  info
+    .GetReturnValue()
+    .Set(Nan::CopyBuffer(reinterpret_cast<char const*>(&hash), 8)
+      .ToLocalChecked());
 }
 
 NAN_METHOD(AsString) {
@@ -64,7 +83,9 @@ NAN_METHOD(AsString) {
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
-  info.GetReturnValue().Set(Nan::New(std::to_string(hash)).ToLocalChecked());
+  info
+    .GetReturnValue()
+    .Set(Nan::New(std::to_string(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(AsHexString) {
@@ -74,7 +95,9 @@ NAN_METHOD(AsHexString) {
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
-  info.GetReturnValue().Set(Nan::New(AsHex(hash)).ToLocalChecked());
+  info
+    .GetReturnValue()
+    .Set(Nan::New(AsHex(hash)).ToLocalChecked());
 }
 
 NAN_METHOD(AsUInt32Low) {
@@ -84,7 +107,9 @@ NAN_METHOD(AsUInt32Low) {
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
-  info.GetReturnValue().Set(Nan::New(static_cast<uint32_t>(hash)));
+  info
+    .GetReturnValue()
+    .Set(Nan::New(static_cast<uint32_t>(hash)));
 }
 
 NAN_METHOD(AsUInt32High) {
@@ -94,21 +119,28 @@ NAN_METHOD(AsUInt32High) {
 
   uint64_t const hash = AsUInt64(*key, *value, value.length());
 
-  info.GetReturnValue().Set(Nan::New(static_cast<uint32_t>(hash >> 32)));
+  info
+    .GetReturnValue()
+    .Set(Nan::New(static_cast<uint32_t>(hash >> 32)));
 }
 
 // Init
 NAN_MODULE_INIT(init) {
   Nan::Set(target, Nan::New("AsBuffer").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsBuffer)).ToLocalChecked());
+    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsBuffer))
+      .ToLocalChecked());
   Nan::Set(target, Nan::New("AsString").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsString)).ToLocalChecked());
+    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsString))
+      .ToLocalChecked());
   Nan::Set(target, Nan::New("AsHexString").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsHexString)).ToLocalChecked());
+    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsHexString))
+      .ToLocalChecked());
   Nan::Set(target, Nan::New("AsUInt32Low").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsUInt32Low)).ToLocalChecked());
+    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsUInt32Low))
+      .ToLocalChecked());
   Nan::Set(target, Nan::New("AsUInt32High").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsUInt32High)).ToLocalChecked());
+    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsUInt32High))
+      .ToLocalChecked());
 }
 
 NODE_MODULE(highwayhash, init)
