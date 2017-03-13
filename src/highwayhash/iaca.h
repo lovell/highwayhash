@@ -15,8 +15,10 @@
 #ifndef HIGHWAYHASH_IACA_H_
 #define HIGHWAYHASH_IACA_H_
 
-// WARNING: compiled with different flags => must not define/instantiate any
-// inline functions, nor include any headers that do - see instruction_sets.h.
+// WARNING: this is a "restricted" header because it is included from
+// translation units compiled with different flags. This header and its
+// dependencies must not define any function unless it is static inline and/or
+// within namespace HH_TARGET_NAME. See arch_specific.h for details.
 
 #include "highwayhash/compiler_specific.h"
 
@@ -32,29 +34,29 @@
 
 namespace highwayhash {
 
-// Call before the region of interest. Fences hopefully prevent reordering.
-HH_INLINE void BeginIACA() {
 #if HH_ENABLE_IACA && (HH_GCC_VERSION || HH_CLANG_VERSION)
+
+// Call before the region of interest. Fences hopefully prevent reordering.
+static HH_INLINE void BeginIACA() {
   HH_COMPILER_FENCE;
   asm volatile(
       ".byte 0x0F, 0x0B\n\t"  // UD2
       "movl $111, %ebx\n\t"
       ".byte 0x64, 0x67, 0x90\n\t");
   HH_COMPILER_FENCE;
-#endif
 }
 
 // Call after the region of interest. Fences hopefully prevent reordering.
-HH_INLINE void EndIACA() {
-#if HH_ENABLE_IACA && (HH_GCC_VERSION || HH_CLANG_VERSION)
+static HH_INLINE void EndIACA() {
   HH_COMPILER_FENCE;
   asm volatile(
       "movl $222, %ebx\n\t"
       ".byte 0x64, 0x67, 0x90\n\t"
       ".byte 0x0F, 0x0B\n\t");  // UD2
   HH_COMPILER_FENCE;
-#endif
 }
+
+#endif
 
 }  // namespace highwayhash
 

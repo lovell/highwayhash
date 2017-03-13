@@ -34,7 +34,7 @@ AsUInt64(uint8_t const *key, char const *value, size_t const length) {
   };
   // Generate hash
   HHResult64 result;
-  InstructionSets::Run<HighwayHash>(key64, value, 8, &result, 0);
+  InstructionSets::Run<HighwayHash>(key64, value, length, &result);
   return static_cast<uint64_t>(result);
 }
 

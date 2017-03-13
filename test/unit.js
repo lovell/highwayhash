@@ -11,8 +11,8 @@ const key = new Buffer([
   0x7d, 0xcf, 0x89, 0xe5, 0x83, 0xfe, 0x9a, 0xae,
   0x1c, 0x8b, 0xee, 0xeb, 0x3e, 0xe3, 0x1d, 0x1d
 ]);
-const expectedHashUInt32Low = 1814773524;
-const expectedHashUInt32High = 3598712257;
+const expectedHashUInt32Low = 1700611305;
+const expectedHashUInt32High = 2515248088;
 
 // asBuffer
 const hashAsBuffer = highwayhash.asBuffer(key, input);
@@ -64,3 +64,12 @@ assert.throws(function () {
 assert.throws(function () {
   highwayhash(key, 'str');
 });
+
+const hashesAsString = [hashAsString];
+for (let i = 0; i < input.length; i++) {
+  const modInput = Buffer.from(input);
+  modInput[i] = ~modInput[i];
+  const modHashAsString = highwayhash.asString(key, modInput);
+  assert.strictEqual(false, hashesAsString.includes(modHashAsString));
+  hashesAsString.push(modHashAsString);
+}

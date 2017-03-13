@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#define HH_TARGET TargetSSE41
-#define HH_TARGET_SSE41
+// WARNING: this is a "restricted" source file; avoid including any headers
+// unless they are also restricted. See arch_specific.h for details.
+
+#define HH_TARGET_NAME SSE41
 #include "highwayhash/highwayhash_target.cc"

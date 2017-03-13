@@ -13,6 +13,7 @@
       'OTHER_CPLUSPLUSFLAGS': [
         '-fexceptions',
         '-Wall',
+        '-Wno-macro-redefined',
         '-O3'
       ]
     },
@@ -33,10 +34,7 @@
       'dependencies': ['arch_specific'],
       'type': 'static_library',
       'sources': ['src/highwayhash/highwayhash_target.cc'],
-      'defines': [
-        'HH_TARGET=TargetAVX2',
-        'HH_TARGET_AVX2'
-      ],
+      'defines': ['HH_TARGET_NAME=AVX2'],
       'cflags_cc': [
         '-mavx2'
       ],
@@ -50,10 +48,7 @@
       'dependencies': ['arch_specific'],
       'type': 'static_library',
       'sources': ['src/highwayhash/highwayhash_target.cc'],
-      'defines': [
-        'HH_TARGET=TargetSSE41',
-        'HH_TARGET_SSE41'
-      ],
+      'defines': ['HH_TARGET_NAME=SSE41'],
       'cflags_cc': [
         '-msse4.1'
       ],
@@ -67,10 +62,7 @@
       'dependencies': ['arch_specific'],
       'type': 'static_library',
       'sources': ['src/highwayhash/highwayhash_target.cc'],
-      'defines': [
-        'HH_TARGET=TargetPortable',
-        'HH_TARGET_PORTABLE'
-      ]
+      'defines': ['HH_TARGET_NAME=Portable']
     }, {
       'target_name': 'instruction_sets',
       'dependencies': ['hh_avx2', 'hh_sse41', 'hh_portable'],

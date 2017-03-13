@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#define HH_TARGET TargetPortable
-#define HH_TARGET_PORTABLE
+// WARNING: this is a "restricted" source file; avoid including any headers
+// unless they are also restricted. See arch_specific.h for details.
+
+#define HH_TARGET_NAME Portable
 #include "highwayhash/highwayhash_target.cc"
