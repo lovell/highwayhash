@@ -40,29 +40,24 @@ const highwayhash = require('highwayhash');
 ```
 
 ```javascript
-const key = new Buffer([
-  0x55, 0xce, 0x85, 0x31, 0x06, 0x5e, 0xdc, 0x68,
-  0x0b, 0x46, 0x14, 0xb6, 0x0c, 0xfe, 0x80, 0xcc,
-  0x7d, 0xcf, 0x89, 0xe5, 0x83, 0xfe, 0x9a, 0xae,
-  0x1c, 0x8b, 0xee, 0xeb, 0x3e, 0xe3, 0x1d, 0x1d
-]);
+const key = require('crypto').randomBytes(32);
 
-const input = 'The quick brown fox jumped over the lazy sleeping dog';
+const input = Buffer.from('The quick brown fox jumped over the lazy sleeping dog');
 
 const hashAsString = highwayhash.asString(key, input);
-// '15456351453344120596'
+// Example: '15456351453344120596'
 
 const hashAsHexString = highwayhash.asHexString(key, input);
-// '143f2b6cc1fd7fd6'
+// Example: '143f2b6cc1fd7fd6'
 
 const hashAsUInt32Low = highwayhash.asUInt32Low(key, input);
-// 1814773524
+// Example: 1814773524
 
 const hashAsUInt32High = highwayhash.asUInt32High(key, input);
-// 3598712257
+// Example: 3598712257
 
 const hashAsBuffer = highwayhash.asBuffer(key, input);
-// <Buffer 14 3f 2b 6c c1 fd 7f d6>
+// Example: <Buffer 14 3f 2b 6c c1 fd 7f d6>
 
 ```
 
