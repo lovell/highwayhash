@@ -70,6 +70,6 @@ for (let i = 0; i < input.length; i++) {
   const modInput = Buffer.from(input);
   modInput[i] = ~modInput[i];
   const modHashAsString = highwayhash.asString(key, modInput);
-  assert.strictEqual(false, hashesAsString.includes(modHashAsString));
+  assert.strictEqual(true, hashesAsString.indexOf(modHashAsString) === -1);
   hashesAsString.push(modHashAsString);
 }

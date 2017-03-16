@@ -20,7 +20,7 @@
     'msvs_settings': {
       'VCCLCompilerTool': {
         'ExceptionHandling': 1,
-        'DisableSpecificWarnings': ['4477']
+        'DisableSpecificWarnings': ['4005', '4477']
       }
     }
   },
@@ -35,13 +35,9 @@
       'type': 'static_library',
       'sources': ['src/highwayhash/highwayhash_target.cc'],
       'defines': ['HH_TARGET_NAME=AVX2'],
-      'cflags_cc': [
-        '-mavx2'
-      ],
+      'cflags_cc': ['-mavx2'],
       'xcode_settings': {
-        'OTHER_CPLUSPLUSFLAGS': [
-          '-mavx2'
-        ]
+        'OTHER_CPLUSPLUSFLAGS': ['-mavx2']
       }
     }, {
       'target_name': 'hh_sse41',
@@ -49,13 +45,9 @@
       'type': 'static_library',
       'sources': ['src/highwayhash/highwayhash_target.cc'],
       'defines': ['HH_TARGET_NAME=SSE41'],
-      'cflags_cc': [
-        '-msse4.1'
-      ],
+      'cflags_cc': ['-msse4.1'],
       'xcode_settings': {
-        'OTHER_CPLUSPLUSFLAGS': [
-          '-msse4.1'
-        ]
+        'OTHER_CPLUSPLUSFLAGS': ['-msse4.1']
       }
     }, {
       'target_name': 'hh_portable',
@@ -67,21 +59,13 @@
       'target_name': 'instruction_sets',
       'dependencies': ['hh_avx2', 'hh_sse41', 'hh_portable'],
       'type': 'static_library',
-      'sources': ['src/highwayhash/instruction_sets.cc'],
-      'defines': [
-        'HH_TARGET=TargetPortable',
-        'HH_TARGET_PORTABLE'
-      ]
+      'sources': ['src/highwayhash/instruction_sets.cc']
     }, {
       'target_name': 'highwayhash',
       'dependencies': ['instruction_sets'],
       'sources': ['src/bindings.cc'],
-      'include_dirs': [
-        '<!(node -e "require(\'nan\')")'
-      ],
-      'cflags_cc': [
-        '-flto'
-      ]
+      'include_dirs': ['<!(node -e "require(\'nan\')")'],
+      'cflags_cc': ['-flto']
     }
   ]
 }

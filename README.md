@@ -23,7 +23,8 @@ a cryptographically-insecure alternative is
 
 ## Requirements
 
-* x64 CPU
+* x64 CPU (ARM support coming soon)
+* Linux or OS X (Windows support [coming soon](https://github.com/google/highwayhash/issues/46))
 * Node.js v4+
 * [node-gyp](https://github.com/nodejs/node-gyp#installation) and its dependencies
 
