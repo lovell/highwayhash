@@ -20,7 +20,7 @@
     'msvs_settings': {
       'VCCLCompilerTool': {
         'ExceptionHandling': 1,
-        'DisableSpecificWarnings': ['4005', '4477']
+        'DisableSpecificWarnings': ['4005', '4477', '4752']
       }
     }
   },
