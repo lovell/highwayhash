@@ -8,7 +8,10 @@ because memory accesses are sequential and the algorithm is branch-free.
 
 This makes it suitable for random number generators and hash tables storing untrusted data.
 
-AVX2 or SSE4.1 instruction sets will be used when available at runtime.
+64-bit hash values are platform independent and will not change for a given input.
+This is important for applications that write hashes to persistent storage.
+
+SIMD intrinsics (AVX2, SSE4.1) will be used when available at runtime.
 
 Expect up to 8 million operations/second,
 depending on the length of the input and the output type required.
@@ -21,16 +24,16 @@ If the input to be hashed is trusted,
 a cryptographically-insecure alternative is
 [FarmHash](https://github.com/lovell/farmhash).
 
-## Requirements
-
-* x64 CPU (ARM support coming soon)
-* Node.js v4+
-* [node-gyp](https://github.com/nodejs/node-gyp#installation) and its dependencies
+Pre-compiled binaries are provided for the most common platforms.
 
 ## Installation
 
 ```sh
 npm install highwayhash
+```
+
+```sh
+yarn add highwayhash
 ```
 
 ## Usage

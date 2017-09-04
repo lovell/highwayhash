@@ -4,8 +4,8 @@ const assert = require('assert');
 const long = require('long');
 const highwayhash = require('../index');
 
-const input = new Buffer('The quick brown fox jumped over the lazy sleeping dog');
-const key = new Buffer([
+const input = Buffer.from('The quick brown fox jumped over the lazy sleeping dog');
+const key = Buffer.from([
   0x55, 0xce, 0x85, 0x31, 0x06, 0x5e, 0xdc, 0x68,
   0x0b, 0x46, 0x14, 0xb6, 0x0c, 0xfe, 0x80, 0xcc,
   0x7d, 0xcf, 0x89, 0xe5, 0x83, 0xfe, 0x9a, 0xae,
