@@ -26,6 +26,11 @@ a cryptographically-insecure alternative is
 
 Pre-compiled binaries are provided for the most common platforms.
 
+## Requirements
+
+* x64 CPU
+* Node.js v4+
+
 ## Installation
 
 ```sh
