@@ -36,6 +36,10 @@ class InstructionSets {
 // The HH_TARGET_Portable bit is guaranteed to be set.
 #if HH_ARCH_X64
   static TargetBits Supported();
+#elif HH_ARCH_PPC
+  static HH_INLINE TargetBits Supported() {
+    return HH_TARGET_VSX | HH_TARGET_Portable;
+  }
 #else
   static HH_INLINE TargetBits Supported() { return HH_TARGET_Portable; }
 #endif
@@ -56,8 +60,15 @@ class InstructionSets {
       Func<HH_TARGET_SSE41>()(std::forward<Args>(args)...);
       return HH_TARGET_SSE41;
     }
-#endif  // HH_ARCH_X64
+#elif HH_ARCH_PPC
+    const TargetBits supported = Supported();
+    if (supported & HH_TARGET_VSX) {
+      Func<HH_TARGET_VSX>()(std::forward<Args>(args)...);
+      return HH_TARGET_VSX;
+    }
+#endif
 
+    // No matching HH_ARCH or no supported HH_TARGET:
     Func<HH_TARGET_Portable>()(std::forward<Args>(args)...);
     return HH_TARGET_Portable;
   }
@@ -66,19 +77,23 @@ class InstructionSets {
   // current CPU, and returns their HH_TARGET_* bits.
   template <template <TargetBits> class Func, typename... Args>
   static HH_INLINE TargetBits RunAll(Args&&... args) {
-#if HH_ARCH_X64
     const TargetBits supported = Supported();
+
+#if HH_ARCH_X64
     if (supported & HH_TARGET_AVX2) {
       Func<HH_TARGET_AVX2>()(std::forward<Args>(args)...);
     }
     if (supported & HH_TARGET_SSE41) {
       Func<HH_TARGET_SSE41>()(std::forward<Args>(args)...);
     }
-#else
-    const TargetBits supported = HH_TARGET_Portable;
-#endif  // HH_ARCH_X64
+#elif HH_ARCH_PPC
+    if (supported & HH_TARGET_VSX) {
+      Func<HH_TARGET_VSX>()(std::forward<Args>(args)...);
+    }
+#endif
 
     Func<HH_TARGET_Portable>()(std::forward<Args>(args)...);
+
     return supported;  // i.e. all that were run
   }
 };
