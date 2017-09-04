@@ -1,6 +1,6 @@
 'use strict';
 
-const HighwayHash = require('./build/Release/highwayhash');
+const HighwayHash = require('./build/Release/highwayhash.node');
 
 const assertKey = function (key) {
   if (!(Buffer.isBuffer(key) && key.length === 32)) {
