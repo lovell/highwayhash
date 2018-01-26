@@ -141,7 +141,7 @@ npm install && npm test
 
 ## Licence
 
-Copyright 2016, 2017 Lovell Fuller.
+Copyright 2016, 2017, 2018 Lovell Fuller.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
