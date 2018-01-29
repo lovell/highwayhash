@@ -4,5 +4,6 @@ test
 bench
 .gitattributes
 .gitignore
-appveyor.yml
+.prebuildrc
 .travis.yml
+appveyor.yml
