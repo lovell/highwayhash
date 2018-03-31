@@ -8,7 +8,9 @@
       '-Wno-deprecated-declarations',
       '-O3'
     ],
+    'cflags!': ['-fno-exceptions'],
     'xcode_settings': {
+      'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
       'CLANG_CXX_LANGUAGE_STANDARD': 'c++11',
       'CLANG_CXX_LIBRARY': 'libc++',
       'MACOSX_DEPLOYMENT_TARGET': '10.7',
@@ -65,9 +67,12 @@
       'sources': ['src/highwayhash/instruction_sets.cc']
     }, {
       'target_name': 'highwayhash',
-      'dependencies': ['instruction_sets'],
+      'dependencies': [
+        'instruction_sets',
+        "<!(node -p \"require('node-addon-api').gyp\")"
+        ],
       'sources': ['src/bindings.cc'],
-      'include_dirs': ['<!(node -e "require(\'nan\')")']
+      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")"],
     }
   ]
 }
