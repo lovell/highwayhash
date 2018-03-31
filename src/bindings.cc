@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <node.h>
-#include <nan.h>
+#include <napi.h>
 
 #include "highwayhash/highwayhash_target.h"
 #include "highwayhash/instruction_sets.h"
@@ -63,84 +62,68 @@ inline std::string AsHex(uint64_t const hash) {
 
 // Hash methods
 
-NAN_METHOD(AsBuffer) {
-  Nan::HandleScope();
-  Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<char> value(info[1]);
+Napi::Value AsBuffer(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::TypedArrayOf<uint8_t> key = info[0].As<Napi::TypedArrayOf<uint8_t>>();
+  Napi::TypedArrayOf<char> value = info[1].As<Napi::TypedArrayOf<char>>();
 
-  uint64_t const hash = AsUInt64(*key, *value, value.length());
+  uint64_t const hash = AsUInt64(key.Data(), value.Data(), value.ByteLength());
 
-  info
-    .GetReturnValue()
-    .Set(Nan::CopyBuffer(reinterpret_cast<char const*>(&hash), 8)
-      .ToLocalChecked());
+  return Napi::Buffer<char>::Copy(env, reinterpret_cast<char const*>(&hash), 8);
 }
 
-NAN_METHOD(AsString) {
-  Nan::HandleScope();
-  Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<char> value(info[1]);
+Napi::Value AsString(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::TypedArrayOf<uint8_t> key = info[0].As<Napi::TypedArrayOf<uint8_t>>();
+  Napi::TypedArrayOf<char> value = info[1].As<Napi::TypedArrayOf<char>>();
 
-  uint64_t const hash = AsUInt64(*key, *value, value.length());
+  uint64_t const hash = AsUInt64(key.Data(), value.Data(), value.ByteLength());
 
-  info
-    .GetReturnValue()
-    .Set(Nan::New(std::to_string(hash)).ToLocalChecked());
+  return Napi::String::New(env, std::to_string(hash));
 }
 
-NAN_METHOD(AsHexString) {
-  Nan::HandleScope();
-  Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<char> value(info[1]);
+Napi::Value AsHexString(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::TypedArrayOf<uint8_t> key = info[0].As<Napi::TypedArrayOf<uint8_t>>();
+  Napi::TypedArrayOf<char> value = info[1].As<Napi::TypedArrayOf<char>>();
 
-  uint64_t const hash = AsUInt64(*key, *value, value.length());
+  uint64_t const hash = AsUInt64(key.Data(), value.Data(), value.ByteLength());
 
-  info
-    .GetReturnValue()
-    .Set(Nan::New(AsHex(hash)).ToLocalChecked());
+  return Napi::String::New(env, AsHex(hash));
 }
 
-NAN_METHOD(AsUInt32Low) {
-  Nan::HandleScope();
-  Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<char> value(info[1]);
+Napi::Value AsUInt32Low(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::TypedArrayOf<uint8_t> key = info[0].As<Napi::TypedArrayOf<uint8_t>>();
+  Napi::TypedArrayOf<char> value = info[1].As<Napi::TypedArrayOf<char>>();
 
-  uint64_t const hash = AsUInt64(*key, *value, value.length());
+  uint64_t const hash = AsUInt64(key.Data(), value.Data(), value.ByteLength());
 
-  info
-    .GetReturnValue()
-    .Set(Nan::New(static_cast<uint32_t>(hash)));
+  return Napi::Number::New(env, static_cast<uint32_t>(hash));
 }
 
-NAN_METHOD(AsUInt32High) {
-  Nan::HandleScope();
-  Nan::TypedArrayContents<uint8_t> key(info[0]);
-  Nan::TypedArrayContents<char> value(info[1]);
+Napi::Value AsUInt32High(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::TypedArrayOf<uint8_t> key = info[0].As<Napi::TypedArrayOf<uint8_t>>();
+  Napi::TypedArrayOf<char> value = info[1].As<Napi::TypedArrayOf<char>>();
 
-  uint64_t const hash = AsUInt64(*key, *value, value.length());
+  uint64_t const hash = AsUInt64(key.Data(), value.Data(), value.ByteLength());
 
-  info
-    .GetReturnValue()
-    .Set(Nan::New(static_cast<uint32_t>(hash >> 32)));
+  return Napi::Number::New(env, static_cast<uint32_t>(hash >> 32));
 }
 
-// Init
-NAN_MODULE_INIT(init) {
-  Nan::Set(target, Nan::New("AsBuffer").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsBuffer))
-      .ToLocalChecked());
-  Nan::Set(target, Nan::New("AsString").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsString))
-      .ToLocalChecked());
-  Nan::Set(target, Nan::New("AsHexString").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsHexString))
-      .ToLocalChecked());
-  Nan::Set(target, Nan::New("AsUInt32Low").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsUInt32Low))
-      .ToLocalChecked());
-  Nan::Set(target, Nan::New("AsUInt32High").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<v8::FunctionTemplate>(AsUInt32High))
-      .ToLocalChecked());
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports.Set(Napi::String::New(env, "AsBuffer"),
+    Napi::Function::New(env, AsBuffer));
+  exports.Set(Napi::String::New(env, "AsString"),
+    Napi::Function::New(env, AsString));
+  exports.Set(Napi::String::New(env, "AsHexString"),
+    Napi::Function::New(env, AsHexString));
+  exports.Set(Napi::String::New(env, "AsUInt32Low"),
+    Napi::Function::New(env, AsUInt32Low));
+  exports.Set(Napi::String::New(env, "AsUInt32High"),
+    Napi::Function::New(env, AsUInt32High));
+  return exports;
 }
 
-NODE_MODULE(highwayhash, init)
+NODE_API_MODULE(highwayhash, Init)

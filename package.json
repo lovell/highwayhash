@@ -21,7 +21,7 @@
     "random"
   ],
   "dependencies": {
-    "nan": "^2.8.0",
+    "node-addon-api": "^1.2.0",
     "prebuild-install": "^2.5.0"
   },
   "devDependencies": {
