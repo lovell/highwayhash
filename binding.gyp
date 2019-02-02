@@ -67,8 +67,7 @@
       'target_name': 'highwayhash',
       'dependencies': ['instruction_sets'],
       'sources': ['src/bindings.cc'],
-      'include_dirs': ['<!(node -e "require(\'nan\')")'],
-      'cflags_cc': ['-flto']
+      'include_dirs': ['<!(node -e "require(\'nan\')")']
     }
   ]
 }
