@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "benchmark": "^2.1.4",
-    "farmhash": "^2.0.0"
+    "farmhash": "^2.1.0"
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   }
 }

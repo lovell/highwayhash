@@ -4,6 +4,8 @@
     'cflags_cc': [
       '-fexceptions',
       '-Wall',
+      '-Wno-cast-function-type',
+      '-Wno-deprecated-declarations',
       '-O3'
     ],
     'xcode_settings': {
@@ -14,6 +16,7 @@
         '-fexceptions',
         '-Wall',
         '-Wno-macro-redefined',
+        '-Wno-deprecated-declarations',
         '-O3'
       ]
     },
