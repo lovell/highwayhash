@@ -22,6 +22,11 @@
         '-Wno-deprecated-declarations',
         '-O3'
       ]
+    },
+    'msvs_settings': {
+      'VCCLCompilerTool': {
+        'DisableSpecificWarnings': ['4005', '4477', '4752']
+      }
     }
   },
   'targets': [
