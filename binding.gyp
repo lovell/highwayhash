@@ -8,7 +8,8 @@
       '-Wno-deprecated-declarations',
       '-O3'
     ],
-    'cflags!': ['-fno-exceptions'],
+    'cflags!': [ '-fno-exceptions' ],
+    'cflags_cc!': [ '-fno-exceptions' ],
     'xcode_settings': {
       'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
       'CLANG_CXX_LANGUAGE_STANDARD': 'c++11',
