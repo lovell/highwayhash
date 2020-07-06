@@ -21,12 +21,8 @@
     "random"
   ],
   "dependencies": {
-    "node-addon-api": "^1.2.0",
-<<<<<<< HEAD
+    "node-addon-api": "^3.0.0",
     "prebuild-install": "^5.2.4"
-=======
-    "prebuild-install": "^2.5.0"
->>>>>>> napi
   },
   "devDependencies": {
     "cc": "^1.0.2",

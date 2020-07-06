@@ -113,16 +113,11 @@ Napi::Value AsUInt32High(const Napi::CallbackInfo& info) {
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  exports.Set(Napi::String::New(env, "AsBuffer"),
-    Napi::Function::New(env, AsBuffer));
-  exports.Set(Napi::String::New(env, "AsString"),
-    Napi::Function::New(env, AsString));
-  exports.Set(Napi::String::New(env, "AsHexString"),
-    Napi::Function::New(env, AsHexString));
-  exports.Set(Napi::String::New(env, "AsUInt32Low"),
-    Napi::Function::New(env, AsUInt32Low));
-  exports.Set(Napi::String::New(env, "AsUInt32High"),
-    Napi::Function::New(env, AsUInt32High));
+  exports["AsBuffer"] = Napi::Function::New(env, AsBuffer);
+  exports["AsString"] = Napi::Function::New(env, AsString);
+  exports["AsHexString"] = Napi::Function::New(env, AsHexString);
+  exports["AsUInt32Low"] = Napi::Function::New(env, AsUInt32Low);
+  exports["AsUInt32High"] = Napi::Function::New(env, AsUInt32High);
   return exports;
 }
 
