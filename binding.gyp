@@ -22,12 +22,6 @@
         '-Wno-deprecated-declarations',
         '-O3'
       ]
-    },
-    'msvs_settings': {
-      'VCCLCompilerTool': {
-        'ExceptionHandling': 1,
-        'DisableSpecificWarnings': ['4005', '4477', '4752']
-      }
     }
   },
   'targets': [
@@ -68,6 +62,11 @@
       'sources': ['src/highwayhash/instruction_sets.cc']
     }, {
       'target_name': 'highwayhash',
+      'msvs_settings': {
+      'VCCLCompilerTool': {
+        'ExceptionHandling': 1
+      }
+    },
       'dependencies': [
         'instruction_sets',
         "<!(node -p \"require('node-addon-api').gyp\")"
