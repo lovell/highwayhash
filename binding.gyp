@@ -73,6 +73,10 @@
         ],
       'sources': ['src/bindings.cc'],
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")"],
+<<<<<<< HEAD
+=======
+      'cflags_cc': ['-flto']
+>>>>>>> napi
     }
   ]
 }
