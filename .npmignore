@@ -7,3 +7,4 @@ bench
 .prebuildrc
 .travis.yml
 appveyor.yml
+update.sh
