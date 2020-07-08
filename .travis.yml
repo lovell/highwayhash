@@ -1,76 +1,59 @@
 matrix:
   include:
-    - name: "Linux (glibc) - Node 6"
-      os: linux
-      dist: trusty
-      sudo: false
-      language: node_js
-      node_js: "6"
-    - name: "Linux (glibc) - Node 8"
-      os: linux
-      dist: trusty
-      sudo: false
-      language: node_js
-      node_js: "8"
     - name: "Linux (glibc) - Node 10"
       os: linux
       dist: trusty
-      sudo: false
       language: node_js
       node_js: "10"
-    - name: "Linux (glibc) - Node 11"
+    - name: "Linux (glibc) - Node 12"
       os: linux
       dist: trusty
-      sudo: false
       language: node_js
-      node_js: "11"
-    - name: "Linux (musl) - Node 8"
+      node_js: "12"
+    - name: "Linux (glibc) - Node 14"
       os: linux
       dist: trusty
-      sudo: true
-      language: minimal
-      before_install:
-        - sudo docker run -dit --name hh --env CI --env PREBUILD_TOKEN --volume "${PWD}:/mnt/hh" --workdir /mnt/hh node:8-alpine
-        - sudo docker exec hh apk add build-base git python2 --update-cache
-      install: sudo docker exec hh sh -c "npm install --unsafe-perm"
-      script: sudo docker exec hh sh -c "npm test"
+      language: node_js
+      node_js: "14"
     - name: "Linux (musl) - Node 10"
       os: linux
-      dist: trusty
-      sudo: true
-      language: minimal
+      dist: bionic
+      language: shell
       before_install:
         - sudo docker run -dit --name hh --env CI --env PREBUILD_TOKEN --volume "${PWD}:/mnt/hh" --workdir /mnt/hh node:10-alpine
         - sudo docker exec hh apk add build-base git python2 --update-cache
       install: sudo docker exec hh sh -c "npm install --unsafe-perm"
       script: sudo docker exec hh sh -c "npm test"
-    - name: "Linux (musl) - Node 11"
+    - name: "Linux (musl) - Node 12"
       os: linux
-      dist: trusty
-      sudo: true
-      language: minimal
+      dist: bionic
+      language: shell
       before_install:
-        - sudo docker run -dit --name hh --env CI --env PREBUILD_TOKEN --volume "${PWD}:/mnt/hh" --workdir /mnt/hh node:11-alpine
+        - sudo docker run -dit --name hh --env CI --env PREBUILD_TOKEN --volume "${PWD}:/mnt/hh" --workdir /mnt/hh node:12-alpine
         - sudo docker exec hh apk add build-base git python2 --update-cache
       install: sudo docker exec hh sh -c "npm install --unsafe-perm"
       script: sudo docker exec hh sh -c "npm test"
-    - name: "OS X - Node 6"
-      os: osx
-      osx_image: xcode9.2
-      language: node_js
-      node_js: "6"
-    - name: "OS X - Node 8"
-      os: osx
-      osx_image: xcode9.2
-      language: node_js
-      node_js: "8"
+    - name: "Linux (musl) - Node 14"
+      os: linux
+      dist: bionic
+      language: shell
+      before_install:
+        - sudo docker run -dit --name hh --env CI --env PREBUILD_TOKEN --volume "${PWD}:/mnt/hh" --workdir /mnt/hh node:14-alpine
+        - sudo docker exec hh apk add build-base git python2 --update-cache
+      install: sudo docker exec hh sh -c "npm install --unsafe-perm"
+      script: sudo docker exec hh sh -c "npm test"
     - name: "OS X - Node 10"
       os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       language: node_js
       node_js: "10"
-    - name: "OS X - Node 11"
+    - name: "OS X - Node 12"
       os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       language: node_js
-      node_js: "11"
+      node_js: "12"
+    - name: "OS X - Node 14"
+      os: osx
+      osx_image: xcode10.1
+      language: node_js
+      node_js: "14"
