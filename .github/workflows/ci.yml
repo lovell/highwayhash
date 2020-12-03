@@ -49,8 +49,6 @@ jobs:
             nodejs_version: 14
           - os: windows-2019
             nodejs_version: 15
-    env:
-      CXXFLAGS: "-march=corei7 -mno-avx -mno-aes -mno-f16c"
     steps:
       - name: Dependencies (Linux glibc)
         if: contains(matrix.container, 'centos')
