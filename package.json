@@ -1,12 +1,12 @@
 {
   "name": "highwayhash",
-  "version": "3.0.0",
+  "version": "3.1.0-alpha1",
   "author": "Lovell Fuller <npm@lovell.info>",
   "description": "Node.js implementation of HighwayHash, Google's fast and strong hash function",
   "homepage": "https://github.com/lovell/highwayhash",
   "scripts": {
-    "install": "prebuild-install --runtime=napi || node-gyp rebuild",
-    "test": "semistandard && cpplint && node test/unit && prebuild-ci"
+    "install": "prebuild-install || node-gyp rebuild",
+    "test": "semistandard && cpplint && node test/unit"
   },
   "main": "index.js",
   "repository": {
@@ -21,15 +21,14 @@
     "random"
   ],
   "dependencies": {
-    "node-addon-api": "^3.0.0",
-    "prebuild-install": "^5.3.5"
+    "node-addon-api": "^3.0.2",
+    "prebuild-install": "^6.0.0"
   },
   "devDependencies": {
-    "cc": "^2.0.1",
+    "cc": "^3.0.0",
     "long": "^4.0.0",
-    "prebuild": "^10.0.0",
-    "prebuild-ci": "^3.1.0",
-    "semistandard": "^14.2.2"
+    "prebuild": "^10.0.1",
+    "semistandard": "^16.0.0"
   },
   "license": "Apache-2.0",
   "engines": {
@@ -39,6 +38,10 @@
     "napi_versions": [
       3
     ]
+  },
+  "config": {
+    "runtime": "napi",
+    "target": 3
   },
   "cc": {
     "ignore": [
