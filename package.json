@@ -1,6 +1,6 @@
 {
   "name": "highwayhash",
-  "version": "3.1.0-alpha1",
+  "version": "3.1.0-alpha2",
   "author": "Lovell Fuller <npm@lovell.info>",
   "description": "Node.js implementation of HighwayHash, Google's fast and strong hash function",
   "homepage": "https://github.com/lovell/highwayhash",
