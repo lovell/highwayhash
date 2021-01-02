@@ -9,7 +9,7 @@
   "dependencies": {
     "benchmark": "^2.1.4",
     "farmhash": "^3.2.0",
-    "highwayhasher": "0.0.3"
+    "highwayhasher": "0.0.4"
   },
   "license": "Apache-2.0",
   "engines": {
