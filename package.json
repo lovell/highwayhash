@@ -13,6 +13,11 @@
     "type": "git",
     "url": "git://github.com/lovell/highwayhash"
   },
+  "files": [
+    "binding.gyp",
+    "src/",
+    "!update.sh"
+  ],
   "keywords": [
     "highwayhash",
     "siphash",
