@@ -15,6 +15,7 @@
   },
   "files": [
     "binding.gyp",
+    "index.d.ts",
     "src/",
     "!update.sh"
   ],
