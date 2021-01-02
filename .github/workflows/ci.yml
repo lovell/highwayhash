@@ -11,38 +11,38 @@ jobs:
         include:
           - os: ubuntu-20.04
             nodejs_version: 10
-            prebuild: true
           - os: ubuntu-20.04
             nodejs_version: 12
           - os: ubuntu-20.04
             nodejs_version: 14
+            prebuild: true
           - os: ubuntu-20.04
             nodejs_version: 15
           - os: ubuntu-20.04
-            container: node:10-alpine3.12
-            prebuild: true
+            container: node:10-alpine3.11
           - os: ubuntu-20.04
             container: node:12-alpine3.12
           - os: ubuntu-20.04
             container: node:14-alpine3.12
+            prebuild: true
           - os: ubuntu-20.04
             container: node:15-alpine3.12
           - os: macos-10.15
             nodejs_version: 10
-            prebuild: true
           - os: macos-10.15
             nodejs_version: 12
           - os: macos-10.15
             nodejs_version: 14
+            prebuild: true
           - os: macos-10.15
             nodejs_version: 15
           - os: windows-2019
             nodejs_version: 10
-            prebuild: true
           - os: windows-2019
             nodejs_version: 12
           - os: windows-2019
             nodejs_version: 14
+            prebuild: true
           - os: windows-2019
             nodejs_version: 15
     steps:
