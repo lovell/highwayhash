@@ -8,11 +8,11 @@
   },
   "dependencies": {
     "benchmark": "^2.1.4",
-    "farmhash": "^3.2.0",
-    "highwayhasher": "0.0.4"
+    "farmhash": "3.2.0",
+    "highwayhasher": "0.0.6"
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10"
+    "node": "14"
   }
 }
